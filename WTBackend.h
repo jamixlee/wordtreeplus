@@ -29,6 +29,11 @@ public:
 	    QStringList m_lsWords;
 	    QVector<long long int> m_vCodesForWords;
 	};
+    struct Initial_vis_data_set
+    {
+        QStringList Words;
+        int counter_val;
+    };
     //@}
 
     /*! \name Constructor / Destructor */
@@ -57,39 +62,38 @@ private:
 	/// this class represents a node in the word tree
 	class TItlNode
 	{
-	public:
-	    /*! \name Public attributes */
-	    //@{
-		/// returns the word list
-		QStringList GetWordList() { return m_lsWords; }
+        public:
+            /*! \name Public attributes */
+            //@{
+            /// returns the word list
+            QStringList GetWordList() { return m_lsWords; }
 
-		/// returns the number of children
-		int NumChildren() const { return m_vChildren.size(); }
+            /// returns the number of children
+            int NumChildren() const { return m_vChildren.size(); }
 
-		/// returns a vector with the children
-		QVector<QSharedPointer<TItlNode> > GetChildren() { return m_vChildren; }
-	    //@}
+            /// returns a vector with the children
+            QVector<QSharedPointer<TItlNode> > GetChildren() { return m_vChildren; }
+            //@}
 
-	    /*! \name Public methods */
-	    //@{
-		/// adds a new child
-		void AddChild(QSharedPointer<TItlNode> spNode) { m_vChildren.push_back(spNode); }
-	    //@}
+            /*! \name Public methods */
+            //@{
+            /// adds a new child
+            void AddChild(QSharedPointer<TItlNode> spNode) { m_vChildren.push_back(spNode); }
+            //@}
 
 
-	    /*! \name Public variables, should be moved to private */
-	    //@{
-		QStringList m_lsWords;
-		QString m_sPhrase;
-		QMap<int, QVector<long long int> > m_mCodesForWords;
-	    //@}
+            /*! \name Public variables, should be moved to private */
+            //@{
+            QStringList m_lsWords;
+            QString m_sPhrase;
+            QMap<int, QVector<long long int> > m_mCodesForWords;
+            //@}
 
-	private:
-	    /*! \name Private member variables */
-	    //@{
-		QVector<QSharedPointer<TItlNode> > m_vChildren;
-	    //@}
-
+        private:
+            /*! \name Private member variables */
+            //@{
+            QVector<QSharedPointer<TItlNode> > m_vChildren;
+            //@}
 	};
     //@}
 
@@ -97,7 +101,7 @@ private:
     //@{
 	/// this method creates a word list of the given phrase
 	QStringList ItlCreateWordList(QString sPhrase);
-
+    void Initial_visual();
 	/// this method recursively draws a given node in the given visualized tree object
 	void ItlDrawNode(int iStartX,
 		  int iStartY,
