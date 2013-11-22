@@ -32,6 +32,13 @@
          <widget class="QLineEdit" name="lineEdit"/>
         </item>
         <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>Filtering</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="openSearchHistoryButton">
           <property name="text">
            <string>View search history</string>
@@ -69,7 +76,7 @@
      <x>0</x>
      <y>0</y>
      <width>958</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

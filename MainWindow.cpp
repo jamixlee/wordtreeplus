@@ -22,6 +22,10 @@
 //WTBackend rBackend;
 WTBackend *pCurrentBackend = 0;
 
+// filename backup (CYLEE)
+QString fName;
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -36,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(Quit()));
     connect(ui->lineEdit, SIGNAL(textEdited(QString)), this, SLOT(HandleSearchBoxValueChanged(QString)));
     connect(ui->graphicsView, SIGNAL(OnClicked(int,int, bool)), this, SLOT(HandleClickOnTree(int,int, bool)));
+
 
   //  ui->graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::DoubleBuffer)));
   //  ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -59,12 +64,14 @@ void MainWindow::LoadFile()
 
     if (filename.isNull() == false)
     {
-	if (pCurrentBackend != NULL);
-	    delete pCurrentBackend;
+        if (pCurrentBackend != NULL)
+            delete pCurrentBackend;
 
-	    pCurrentBackend = new WTBackend();
+        pCurrentBackend = new WTBackend();
 
-	pCurrentBackend->LoadFile(filename);
+        fName = filename;   // 파일 이름 백업하자, 필터링 체크하고 Reload할 때 필요하니깐
+
+        pCurrentBackend->LoadFile(filename, false);
     }
 
 }
@@ -86,10 +93,13 @@ void MainWindow::ForceSearch()
 	    Search(sValue);
 }
 
+
 void MainWindow::HandleSearchBoxValueChanged(QString sValue)
 {
     if (sValue.length() > 0 && sValue.at(sValue.length() - 1) == ' ')
+    {
 	    Search(sValue);
+    }
 }
 
 void MainWindow::HandleClickOnTree(int iX, int iY, bool bControlPressed)
@@ -135,6 +145,7 @@ void MainWindow::SetSearchHistoryWindow(SearchHistory *pSearchHistory)
     connect(ui->openSearchHistoryButton, SIGNAL(clicked()), m_pSearchHistory, SLOT(show()));
     connect(m_pSearchHistory, SIGNAL(EmitSearch(QString)), this, SLOT(Search(QString)));
     connect(ui->actionOpen, SIGNAL(triggered()), m_pSearchHistory, SLOT(ClearHistory()));
+    connect(ui->checkBox, SIGNAL(stateChanged(int)), this, SLOT(on_checkBox_stateChanged(int arg1)));
 }
 
 void MainWindow::Quit()
@@ -181,3 +192,25 @@ void MainWindow::HandleDisableOpenGL()
     ui->graphicsView->update();
 }
 */
+
+void MainWindow::on_checkBox_stateChanged(int arg1) //TRUE: 2 / FALSE: 0
+{
+    if (ui->checkBox->isChecked())
+    {
+        if (pCurrentBackend != NULL)
+            delete pCurrentBackend;
+        pCurrentBackend = new WTBackend();
+        pCurrentBackend->LoadFile(fName, true);
+        //Search(sName);
+        ForceSearch();
+    }
+    else
+    {
+        if (pCurrentBackend != NULL)
+            delete pCurrentBackend;
+        pCurrentBackend = new WTBackend();
+        pCurrentBackend->LoadFile(fName, false);
+        //Search(sName);
+        ForceSearch();
+    }
+}

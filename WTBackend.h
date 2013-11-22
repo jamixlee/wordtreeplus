@@ -22,6 +22,7 @@ class WTBackend : public QObject
 public:
     /*! \name Public types */
     //@{
+    //int filterCheck = 0;
 	/// a coded phrase, which stores the whole phrase,
 	/// a list of all words, and for each word an unique code
 	struct TCodedPhrase
@@ -53,7 +54,7 @@ public slots:
     /*! \name Public slots */
     //@{
 	/// this method loads a given file
-	void LoadFile(QString sFilename);
+    void LoadFile(QString sFilename, bool filtered);
     //@}
 
 private:

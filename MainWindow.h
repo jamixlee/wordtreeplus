@@ -11,6 +11,7 @@
 
 class SearchHistory;
 class WTTreeVisualizer;
+class WTBackend;
 
 namespace Ui {
     class MainWindow;
@@ -60,6 +61,9 @@ private slots:
 
 	/// handles clicking on "create word tree" button
 	void ForceSearch();
+
+    /// handles changes of the check box
+    void on_checkBox_stateChanged(int arg1);
 
 	/*
 	/// handles clicking on "enable opengl"

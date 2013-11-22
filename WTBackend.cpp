@@ -21,7 +21,6 @@
 #include "WTVisualizedTree.h"
 
 const int iWidthOffset = 20;
-const int bFilter = 1;
 
 WTBackend::WTBackend(QObject *parent) :
     QObject(parent)
@@ -189,7 +188,7 @@ void WTBackend::ItlDrawNode(int iStartX,
     rUsedHeight = std::max(iUsedHeightNode, iUsedHeightForChildren);
 }
 
-void WTBackend::LoadFile(QString filename)
+void WTBackend::LoadFile(QString filename, bool filtered)
 {
     QFile filef("filterword.txt");
     filef.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -264,21 +263,21 @@ void WTBackend::LoadFile(QString filename)
             // add all later words of the phrase
             for (int k=iStartingWord; k < iSplittedSize; k++)
             {
-                int d=0;
-
                 /// 관사, 부사, 조사 같은거 필터링할 부분은 여기임 (충연)
-                if (bFilter)
+                if (filtered)    // 필터링 기능 켰을 때
                 {
                     int x = 0;
 
+                    // 필터링할 단어들 갯수만큼 루프 돌면서 검사
                     for (int j=0; j<iFWordsSize; j++)
                     {
                         if (lSplittedPhrase[k] == lFWords[j])
-                            x = 1;
+                            x = 1;  // 걸리면 스킵
                     }
-                    if (x == 0)
+                    if (x == 0)     // 안 걸리면 앞뒤 공백 없앤 단어를 차곡차곡 집어넣음
                         baSubPhrase.append(lSplittedPhrase[k].trimmed());
                 }
+                /// 필터링 기능 껐을 때는 기존 방법대로 고고
                 else    // 앞뒤 공백 없앤 단어를 차곡차곡 집어넣음
                     baSubPhrase.append(lSplittedPhrase[k].trimmed());
 
