@@ -214,38 +214,38 @@ void WTBackend::LoadFile(QString filename)
     while (iCurrentPos < iLength)
     {
 
-	// search the next occurence of '.'
-	int iNextPoint = iCurrentPos;
-	while (baFullText[iNextPoint] != '.' && iNextPoint < baFullText.length())
-	    iNextPoint++;
+        // search the next occurence of '.'
+        int iNextPoint = iCurrentPos;
+        while (baFullText[iNextPoint] != '.' && iNextPoint < baFullText.length())
+            iNextPoint++;
 
-	// get current phrase
-	QByteArray baCurrentPhrase = baFullText.mid(iCurrentPos, iNextPoint - iCurrentPos);
+        // get current phrase
+        QByteArray baCurrentPhrase = baFullText.mid(iCurrentPos, iNextPoint - iCurrentPos);
 
-	// now build all subphrases, that means take each word in the phrase as starting point
-	// (e.g.: "that is cool" -> "that is cool", "is cool", "cool")
+        // now build all subphrases, that means take each word in the phrase as starting point
+        // (e.g.: "that is cool" -> "that is cool", "is cool", "cool")
 
-	QList<QByteArray> lSplittedPhrase = baCurrentPhrase.split(' ');
-	int iSplittedSize = lSplittedPhrase.size();
+        QList<QByteArray> lSplittedPhrase = baCurrentPhrase.split(' ');
+        int iSplittedSize = lSplittedPhrase.size();
 
 	// loop starting word from 0..LastWord
-	for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
-	{
-	    QByteArray baSubPhrase;
+        for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
+        {
+            QByteArray baSubPhrase;
 
-	    // add all later words of the phrase
-	    for (int k=iStartingWord; k < iSplittedSize; k++)
-	    {
-		baSubPhrase.append(lSplittedPhrase[k].trimmed());
+            // add all later words of the phrase
+            for (int k=iStartingWord; k < iSplittedSize; k++)
+            {
+            baSubPhrase.append(lSplittedPhrase[k].trimmed());
 
-		// add additional space if needed
-		if (k < iSplittedSize - 1)
-		    baSubPhrase.append(" ");
-	    }
+            // add additional space if needed
+            if (k < iSplittedSize - 1)
+                baSubPhrase.append(" ");
+            }
 
-	    // write sub phrase in list of all subphrases
-	    lAllSubPhrases.push_back(baSubPhrase.trimmed());
-	}
+            // write sub phrase in list of all subphrases
+            lAllSubPhrases.push_back(baSubPhrase.trimmed());
+        }
 
 	// set position forward
 	iCurrentPos = iNextPoint+1;
@@ -254,13 +254,13 @@ void WTBackend::LoadFile(QString filename)
     // remove unwanted chars (new line, char(10) and char(13))
     for (std::list<QByteArray>::iterator iter = lAllSubPhrases.begin(); iter != lAllSubPhrases.end(); iter++)
     {
-	QByteArray *pCurrentPhrase = &(*iter);
+        QByteArray *pCurrentPhrase = &(*iter);
 
-	for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
-	{
-	    if (pCurrentPhrase->at(i) == (char) 13 || pCurrentPhrase->at(i) == (char) 10 )
-		pCurrentPhrase->remove(i,1);
-	}
+        for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
+        {
+            if (pCurrentPhrase->at(i) == (char) 13 || pCurrentPhrase->at(i) == (char) 10 )
+            pCurrentPhrase->remove(i,1);
+        }
     }
 
 
