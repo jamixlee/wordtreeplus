@@ -190,6 +190,7 @@ void WTBackend::ItlDrawNode(int iStartX,
 
 void WTBackend::LoadFile(QString filename, bool filtered)
 {
+    /// 필터링할 단어 목록 불러와서 저장하기
     QFile filef("filterword.txt");
     filef.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray baFWords;
@@ -199,6 +200,7 @@ void WTBackend::LoadFile(QString filename, bool filtered)
     int iFWordsSize = lFWords.size();
 
 
+    /// 여기서부터는 원래 워드트리 코드
     QFile file(filename);
 
     // open file

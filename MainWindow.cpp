@@ -156,6 +156,7 @@ void MainWindow::Quit()
     // delete the tree visualizer
     delete m_pTreeVisualizer;
     m_pTreeVisualizer = NULL;
+    delete pCurrentBackend;
 
     // close
     close();
@@ -201,8 +202,9 @@ void MainWindow::on_checkBox_stateChanged(int arg1) //TRUE: 2 / FALSE: 0
             delete pCurrentBackend;
         pCurrentBackend = new WTBackend();
         pCurrentBackend->LoadFile(fName, true);
-        //Search(sName);
         ForceSearch();
+        //this->repaint();
+        this->show();
     }
     else
     {
@@ -210,7 +212,7 @@ void MainWindow::on_checkBox_stateChanged(int arg1) //TRUE: 2 / FALSE: 0
             delete pCurrentBackend;
         pCurrentBackend = new WTBackend();
         pCurrentBackend->LoadFile(fName, false);
-        //Search(sName);
         ForceSearch();
+        this->repaint();
     }
 }
