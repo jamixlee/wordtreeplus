@@ -301,6 +301,7 @@ void WTBackend::LoadFile(QString filename)
 }
 
 
+/* This method creates a word tree, which can be visualized with 'WTTreeVisualizer' */
 QSharedPointer<WTVisualizedTree> WTBackend::CreateWordTree(QString sSearchPhrase)
 {
     QStringList lSearchedWords = ItlCreateWordList(sSearchPhrase);
