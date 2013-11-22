@@ -21,7 +21,7 @@
 #include "WTVisualizedTree.h"
 
 const int iWidthOffset = 20;
-const bool bFilter = off;
+const int bFilter = 1;
 
 WTBackend::WTBackend(QObject *parent) :
     QObject(parent)
@@ -264,8 +264,23 @@ void WTBackend::LoadFile(QString filename)
             // add all later words of the phrase
             for (int k=iStartingWord; k < iSplittedSize; k++)
             {
-                // 앞뒤 공백 없앤 단어를 차곡차곡 집어넣음
-                baSubPhrase.append(lSplittedPhrase[k].trimmed());
+                int d=0;
+
+                /// 관사, 부사, 조사 같은거 필터링할 부분은 여기임 (충연)
+                if (bFilter)
+                {
+                    int x = 0;
+
+                    for (int j=0; j<iFWordsSize; j++)
+                    {
+                        if (lSplittedPhrase[k] == lFWords[j])
+                            x = 1;
+                    }
+                    if (x == 0)
+                        baSubPhrase.append(lSplittedPhrase[k].trimmed());
+                }
+                else    // 앞뒤 공백 없앤 단어를 차곡차곡 집어넣음
+                    baSubPhrase.append(lSplittedPhrase[k].trimmed());
 
                 // 방금 집어넣은 단어 뒤에 공백을 하나 넣음 (마지막 놈 빼고)
                 if (k < iSplittedSize - 1)
@@ -292,17 +307,7 @@ void WTBackend::LoadFile(QString filename)
         {
             if (pCurrentPhrase->at(i) == (char) 13 ||
                 pCurrentPhrase->at(i) == (char) 10)
-                pCurrentPhrase->remove(i,1);
-
-            /// 관사, 부사, 조사 같은거 필터링할 부분은 여기임 (충연)
-            else
-            {
-                for (int k=0; k<iFWordsSize; k++)
-                {
-                    if (pCurrentPhrase->at(i) == lFWords[k].trimmed())
-                        pCurrentPhrase->remove(i,1);
-                }
-            }
+                pCurrentPhrase->remove(i,1);           
         }
     }
 
