@@ -32,7 +32,7 @@ public:
     struct Initial_vis_data_set
     {
         QStringList Words;
-        int counter_val;
+        long long int counter_val;
     };
     //@}
 
