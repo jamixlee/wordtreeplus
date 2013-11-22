@@ -21,6 +21,7 @@
 #include "WTVisualizedTree.h"
 
 const int iWidthOffset = 20;
+const bool bFilter = off;
 
 WTBackend::WTBackend(QObject *parent) :
     QObject(parent)
@@ -235,7 +236,8 @@ void WTBackend::LoadFile(QString filename)
         // 먼저 현재 문장을 공백 기준으로 잘라서 단어 목록으로 저장하고
         QList<QByteArray> lSplittedPhrase = baCurrentPhrase.split(' ');
         int iSplittedSize = lSplittedPhrase.size(); // 몇개 단어인지를 세어서 아래 루프에서 limit으로 사용
-       //범진 추가
+
+        //범진 추가
         for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
         {
             long long int size_count_all_phrase = count_all_phrase.size();
@@ -280,10 +282,23 @@ void WTBackend::LoadFile(QString filename)
         /// 관사, 부사, 조사 같은거 필터링할 부분은 여기임 (충연)
         ///
         ///
-        for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
+        if (bFilter)
         {
-            if (pCurrentPhrase->at(i) == (char) 13 || pCurrentPhrase->at(i) == (char) 10 )
-            pCurrentPhrase->remove(i,1);
+            for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
+            {
+                if (pCurrentPhrase->at(i) == (char) 13 ||
+                    pCurrentPhrase->at(i) == (char) 10)
+                    pCurrentPhrase->remove(i,1);
+            }
+        }
+        else
+        {
+            for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
+            {
+                if (pCurrentPhrase->at(i) == (char) 13 ||
+                    pCurrentPhrase->at(i) == (char) 10)
+                    pCurrentPhrase->remove(i,1);
+            }
         }
     }
 
