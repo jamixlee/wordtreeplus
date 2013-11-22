@@ -3,5 +3,3 @@ main.cpp
         ui 생성
             lineEdit에서 검색어 입력 후 ' ' 입력되면 search() 수행
                 search()에서는 spNewTree = pCurrentBackend->CreateWordTree(search_phrase);
-TEST
-CYLEE TEST
