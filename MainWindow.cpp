@@ -194,25 +194,40 @@ void MainWindow::HandleDisableOpenGL()
 }
 */
 
+/// Filtering 체크박스 체크 여부에 따른 액션
 void MainWindow::on_checkBox_stateChanged(int arg1) //TRUE: 2 / FALSE: 0
 {
-    if (ui->checkBox->isChecked())
+    //fName = "F:/InfoVis/_wordtree/wordtreeplus-git/build/debug/text files/test1.txt";
+
+    if (ui->checkBox->isChecked())      // 필터링 사용(checked)
     {
+        // 기존 트리 지우고 새로 생성, 이때 필터링함
         if (pCurrentBackend != NULL)
             delete pCurrentBackend;
         pCurrentBackend = new WTBackend();
         pCurrentBackend->LoadFile(fName, true);
+
+        // 화면 초기화
+        if (m_pTreeVisualizer != NULL)
+            delete m_pTreeVisualizer;
+        m_pTreeVisualizer = new WTTreeVisualizer();
+        m_pTreeVisualizer->SetGraphicsView(ui->graphicsView);
+
+        // 출력
         ForceSearch();
-        //this->repaint();
-        this->show();
     }
-    else
+    else                                // 필터링 미사용(unchecked)
     {
         if (pCurrentBackend != NULL)
             delete pCurrentBackend;
         pCurrentBackend = new WTBackend();
         pCurrentBackend->LoadFile(fName, false);
+
+        if (m_pTreeVisualizer != NULL)
+            delete m_pTreeVisualizer;
+        m_pTreeVisualizer = new WTTreeVisualizer();
+        m_pTreeVisualizer->SetGraphicsView(ui->graphicsView);
+
         ForceSearch();
-        this->repaint();
     }
 }

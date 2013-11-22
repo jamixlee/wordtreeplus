@@ -206,7 +206,7 @@ void WTTreeVisualizer::VisualizeWordTree(QSharedPointer<WTVisualizedTree> spWord
 	    m_iMillisecondsLeft = iFadeInTime / 2;
 
 	    m_spNewVisualizedWordTree = spWordTree;
-	    m_rTimer.start();
+        m_rTimer.start();
 	}
 	else
 	{
@@ -216,7 +216,7 @@ void WTTreeVisualizer::VisualizeWordTree(QSharedPointer<WTVisualizedTree> spWord
 		m_iMillisecondsLeft = iFadeInTime;
 
 		m_spNewVisualizedWordTree = spWordTree;
-		m_rTimer.start();
+        m_rTimer.start();
 	    }
 	}
 }
