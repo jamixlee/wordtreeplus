@@ -277,26 +277,26 @@ void WTBackend::LoadFile(QString filename)
 
     for (std::list<QByteArray>::iterator iter = lAllSubPhrases.begin(); iter != lAllSubPhrases.end(); iter++)
     {
-	// get phrase
-	QString sPhrase(*iter);
+        // get phrase
+        QString sPhrase(*iter);
 
-	// create new coded phrase
-	TCodedPhrase tNewCodedPhrase;
+        // create new coded phrase
+        TCodedPhrase tNewCodedPhrase;
 
-	// set lsWords
-	tNewCodedPhrase.m_lsWords = ItlCreateWordList(sPhrase);
+        // set lsWords
+        tNewCodedPhrase.m_lsWords = ItlCreateWordList(sPhrase);
 
-	// generate code for each word
-	for(int i=0; i < tNewCodedPhrase.m_lsWords.size(); i++)
-	{
-	    //new codes
-	    tNewCodedPhrase.m_vCodesForWords.push_back(iCode++);
-	}
+        // generate code for each word
+        for(int i=0; i < tNewCodedPhrase.m_lsWords.size(); i++)
+        {
+            //new codes
+            tNewCodedPhrase.m_vCodesForWords.push_back(iCode++);
+        }
 
-	// store new coded phrase in vector
-	m_vCodedPhrases.push_back(tNewCodedPhrase);
+        // store new coded phrase in vector
+        m_vCodedPhrases.push_back(tNewCodedPhrase);
     }
-
+    //q_assert 는 자바의 test catch 같은거
     Q_ASSERT (m_vCodedPhrases.size() == lAllSubPhrases.size());
 }
 
@@ -307,54 +307,51 @@ QSharedPointer<WTVisualizedTree> WTBackend::CreateWordTree(QString sSearchPhrase
     QStringList lSearchedWords = ItlCreateWordList(sSearchPhrase);
 
     QVector<TCodedPhrase> vMatchedPhrases;
-    /*  TCodedPhrase는 요로코롬 생긴 구조체임
-     *      QStringList m_lsWords;                    (문장들로부터 추출된 단어 목록)
-     *      QVector<long long int> m_vCodesForWords;  (각 단어에 부여된 unique 코드)
-    */
 
-    // 단어 목록 처음부터 끝까지
     for (QVector<WTBackend::TCodedPhrase>::iterator iter=m_vCodedPhrases.begin(); iter != m_vCodedPhrases.end(); iter++)
 	{
 	    int i=0;
 
-        // 검색어 단어 갯수만큼 반복
-        for (i=0; i < lSearchedWords.size(); i++)
+	    for (i=0; i < lSearchedWords.size(); i++)
 	    {
-            if (iter->m_lsWords.size() <= i || lSearchedWords.at(i).compare(iter->m_lsWords.at(i)) != 0)
-                break;
+		if (iter->m_lsWords.size() <= i || lSearchedWords.at(i).compare(iter->m_lsWords.at(i)) != 0)
+		    break;
 	    }
 
 	    if (i == lSearchedWords.size())
 	    {
-            /*for (int j=0; j < iter->m_lsWords.size(); j++)
-                std::cout << iter->m_lsWords[j].toStdString() << " ";
+		/*for (int j=0; j < iter->m_lsWords.size(); j++)
+		    std::cout << iter->m_lsWords[j].toStdString() << " ";
 
-            std::cout << std::endl;*/
+		std::cout << std::endl;*/
 
-            vMatchedPhrases.push_back(*iter);
+		vMatchedPhrases.push_back(*iter);
 	    }
+
 	}
 
     // if any phrase matched, create a tree
     if (vMatchedPhrases.size() > 0)
     {
-        // create a phrase tree
-        QSharedPointer<WTBackend::TItlNode> pRootNode = ItlCreatePhraseTree(vMatchedPhrases);
+	// create a phrase tree
+	QSharedPointer<WTBackend::TItlNode> pRootNode = ItlCreatePhraseTree(vMatchedPhrases);
 
-        // create a (initially empty) "visualized tree" object
-        QSharedPointer<WTVisualizedTree> spNewWordTree(new WTVisualizedTree(sSearchPhrase));
+	// create a (initially empty) "visualized tree" object
+	QSharedPointer<WTVisualizedTree> spNewWordTree(new WTVisualizedTree(sSearchPhrase));
 
-        int iUsedHeight;
+	int iUsedHeight;
 
-        // draw nodes and add it to the visualized tree
-        ItlDrawNode(0, 0, iUsedHeight, pRootNode, spNewWordTree);
+	// draw nodes and add it to the visualized tree
+	ItlDrawNode(0, 0, iUsedHeight, pRootNode, spNewWordTree);
 
-        // return visualized tree
-        return spNewWordTree;
+	// return visualized tree
+	return spNewWordTree;
     }
     else
-        // return empty tree
-        return QSharedPointer<WTVisualizedTree>(new WTVisualizedTree(sSearchPhrase));
+	// return empty tree
+	return QSharedPointer<WTVisualizedTree>(new WTVisualizedTree(sSearchPhrase));
+
+
 }
 
 
@@ -477,9 +474,9 @@ QSharedPointer<WTBackend::TItlNode> WTBackend::ItlCreateNode(QVector<WTBackend::
 	    // now collect the codes of the words which are collapsed to one word
 	    for (QVector<WTBackend::TCodedPhrase>::iterator iter = lCodedPhrases.begin(); iter != lCodedPhrases.end(); iter++)
 	    {
-            Q_ASSERT (iter->m_vCodesForWords.size() > i);
+		Q_ASSERT (iter->m_vCodesForWords.size() > i);
 
-            spNewNode->m_mCodesForWords[iLastWordPosition].push_back(iter->m_vCodesForWords[i]);
+		spNewNode->m_mCodesForWords[iLastWordPosition].push_back(iter->m_vCodesForWords[i]);
 	    }
 
 	    Q_ASSERT(spNewNode->m_lsWords.size() == spNewNode->m_mCodesForWords.size());
