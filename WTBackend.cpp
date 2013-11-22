@@ -191,6 +191,15 @@ void WTBackend::ItlDrawNode(int iStartX,
 
 void WTBackend::LoadFile(QString filename)
 {
+    QFile filef("filterword.txt");
+    filef.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray baFWords;
+    baFWords = filef.readAll();
+    filef.close();
+    QList<QByteArray> lFWords = baFWords.split(' ');
+    int iFWordsSize = lFWords.size();
+
+
     QFile file(filename);
 
     // open file
@@ -279,25 +288,20 @@ void WTBackend::LoadFile(QString filename)
     {
         QByteArray *pCurrentPhrase = &(*iter);
 
-        /// 관사, 부사, 조사 같은거 필터링할 부분은 여기임 (충연)
-        ///
-        ///
-        if (bFilter)
+        for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
         {
-            for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
+            if (pCurrentPhrase->at(i) == (char) 13 ||
+                pCurrentPhrase->at(i) == (char) 10)
+                pCurrentPhrase->remove(i,1);
+
+            /// 관사, 부사, 조사 같은거 필터링할 부분은 여기임 (충연)
+            else
             {
-                if (pCurrentPhrase->at(i) == (char) 13 ||
-                    pCurrentPhrase->at(i) == (char) 10)
-                    pCurrentPhrase->remove(i,1);
-            }
-        }
-        else
-        {
-            for (int i=pCurrentPhrase->length() - 1; i >= 0; i--)
-            {
-                if (pCurrentPhrase->at(i) == (char) 13 ||
-                    pCurrentPhrase->at(i) == (char) 10)
-                    pCurrentPhrase->remove(i,1);
+                for (int k=0; k<iFWordsSize; k++)
+                {
+                    if (pCurrentPhrase->at(i) == lFWords[k].trimmed())
+                        pCurrentPhrase->remove(i,1);
+                }
             }
         }
     }
