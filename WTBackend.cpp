@@ -299,7 +299,10 @@ void WTBackend::LoadFile(QString filename)
     //q_assert 는 자바의 test catch 같은거
     Q_ASSERT (m_vCodedPhrases.size() == lAllSubPhrases.size());
 }
+void WTBackend::Initial_visual()
+{
 
+}
 
 /* This method creates a word tree, which can be visualized with 'WTTreeVisualizer' */
 QSharedPointer<WTVisualizedTree> WTBackend::CreateWordTree(QString sSearchPhrase)
