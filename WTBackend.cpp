@@ -211,9 +211,9 @@ void WTBackend::LoadFile(QString filename)
 
     // now go through the text and split them up in phrases;
     // take '.' as split pattern
+    QList<Initial_vis_data_set> count_all_phrase;
     while (iCurrentPos < iLength)
     {
-
         // search the next occurence of '.'
         int iNextPoint = iCurrentPos;
         while (baFullText[iNextPoint] != '.' && iNextPoint < baFullText.length())
@@ -227,7 +227,16 @@ void WTBackend::LoadFile(QString filename)
 
         QList<QByteArray> lSplittedPhrase = baCurrentPhrase.split(' ');
         int iSplittedSize = lSplittedPhrase.size();
+       //범진 추가
+        for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
+        {
+            long long int size_count_all_phrase = count_all_phrase.size();
+            for(int i =0 ; i < size_count_all_phrase; i++)
+            {
 
+            }
+        }
+       //
 	// loop starting word from 0..LastWord
         for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
         {
@@ -299,9 +308,10 @@ void WTBackend::LoadFile(QString filename)
     //q_assert 는 자바의 test catch 같은거
     Q_ASSERT (m_vCodedPhrases.size() == lAllSubPhrases.size());
 }
+
 void WTBackend::Initial_visual()
 {
-
+    QVector<TCodedPhrase> m_vCodedPhrases;
 }
 
 /* This method creates a word tree, which can be visualized with 'WTTreeVisualizer' */
