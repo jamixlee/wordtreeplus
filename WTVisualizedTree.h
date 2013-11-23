@@ -101,12 +101,13 @@ public:
 	QString GetSearchPhrase() { return m_sSearchPhrase; };
     //@}
 
+    QString m_sSearchPhrase;
+
 private:
     /*! \name Private member variables */
     //@{
 	QMap<long long int, TVisualizedWordInfo>	m_mInfoMap;
 	QVector<TVisualizedLineInfo> m_vRenderedLines;
-	QString m_sSearchPhrase;
     //@}
 
 };

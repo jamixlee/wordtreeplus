@@ -455,44 +455,41 @@ QSharedPointer<WTVisualizedTree> WTBackend::CreateWordTree(QString sSearchPhrase
 
         for (i=0; i < lSearchedWords.size(); i++)
         {
-        if (iter->m_lsWords.size() <= i || lSearchedWords.at(i).compare(iter->m_lsWords.at(i)) != 0)
-            break;
+            if (iter->m_lsWords.size() <= i || lSearchedWords.at(i).compare(iter->m_lsWords.at(i)) != 0)
+                break;
+            }
+
+            if (i == lSearchedWords.size())
+            {
+            /*for (int j=0; j < iter->m_lsWords.size(); j++)
+                std::cout << iter->m_lsWords[j].toStdString() << " ";
+
+            std::cout << std::endl;*/
+
+            vMatchedPhrases.push_back(*iter);
+            }
+
         }
 
-        if (i == lSearchedWords.size())
+        // if any phrase matched, create a tree
+        if (vMatchedPhrases.size() > 0)
         {
-        /*for (int j=0; j < iter->m_lsWords.size(); j++)
-            std::cout << iter->m_lsWords[j].toStdString() << " ";
+        // create a phrase tree
+        QSharedPointer<WTBackend::TItlNode> pRootNode = ItlCreatePhraseTree(vMatchedPhrases);
 
-        std::cout << std::endl;*/
+        // create a (initially empty) "visualized tree" object
+        QSharedPointer<WTVisualizedTree> spNewWordTree(new WTVisualizedTree(sSearchPhrase));
 
-        vMatchedPhrases.push_back(*iter);
-        }
+        int iUsedHeight;
 
+        // draw nodes and add it to the visualized tree
+        ItlDrawNode(0, 0, iUsedHeight, pRootNode, spNewWordTree);
+
+        // return visualized tree
+        return spNewWordTree;
     }
-
-    // if any phrase matched, create a tree
-    if (vMatchedPhrases.size() > 0)
-    {
-    // create a phrase tree
-    QSharedPointer<WTBackend::TItlNode> pRootNode = ItlCreatePhraseTree(vMatchedPhrases);
-
-    // create a (initially empty) "visualized tree" object
-    QSharedPointer<WTVisualizedTree> spNewWordTree(new WTVisualizedTree(sSearchPhrase));
-
-    int iUsedHeight;
-
-    // draw nodes and add it to the visualized tree
-    ItlDrawNode(0, 0, iUsedHeight, pRootNode, spNewWordTree);
-
-    // return visualized tree
-    return spNewWordTree;
-    }
-    else
-    // return empty tree
-    return QSharedPointer<WTVisualizedTree>(new WTVisualizedTree(sSearchPhrase));
-
-
+    else    // return empty tree
+        return QSharedPointer<WTVisualizedTree>(new WTVisualizedTree(sSearchPhrase));
 }
 
 

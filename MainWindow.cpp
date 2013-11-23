@@ -92,6 +92,9 @@ void MainWindow::LoadFile()
 }
 void MainWindow::FindWordIndex(QString search_phrase)
 {
+    if (Total_index.size() > 0)
+        Total_index.clear();
+
     int total_size = pCurrentBackend->Total_SplittedPhrase.size(); //모든 phrase별로 다 담고 변수 사이즈 즉 sentence 총갯수
     int complete_size = 0; // 단어 총갯수 즉 위치 찾기용 +- 1차이는 별 지장이 없을듯 overview이기 때문에
 
@@ -146,7 +149,8 @@ void MainWindow::Search(QString search_phrase)
 
     m_pTreeVisualizer->VisualizeWordTree(spNewTree);
 
-    FindWordIndex("Shakespeare");
+    FindWordIndex(search_phrase.trimmed());
+    //FindWordIndex(spNewTree.data()->m_sSearchPhrase);
 
     /// 그림 그려보자
     // create a new temporary scene
@@ -189,7 +193,7 @@ void MainWindow::HandleSearchBoxValueChanged(QString sValue)
 {
     if (sValue.length() > 0 && sValue.at(sValue.length() - 1) == ' ')
     {
-	    Search(sValue);
+        Search(sValue);
     }
 }
 
