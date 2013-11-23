@@ -6,6 +6,7 @@
 
 // qt-gui includes
 #include "ui_MainWindow.h"
+#include <QGraphicsView>
 
 // qt includes
 #include <QScrollBar>
@@ -87,8 +88,42 @@ void MainWindow::LoadFile()
         FindWordIndex("sentence");
         Search(pCurrentBackend->initWord);
         //Search("Harry ");
-    }
 
+
+        /// 그림 그려보자
+        // create a new temporary scene
+        QGraphicsScene *pRightScene = new QGraphicsScene();
+
+        // create two pens (one for each tree)
+        QPen pen1, pen2;
+        int iRed = 255;
+        int iGreen = 153;
+        int iBlue = 0;
+
+        // set properties of the pens
+        pen1.setWidth(2);
+        pen2.setWidth(2);
+
+        // set color of pens
+        pen1.setColor(QColor(iRed * fAlpha1 + 255 * (1.0 - fAlpha1),
+                 iGreen * fAlpha1 + 255 * (1.0 - fAlpha1),
+                 iBlue * fAlpha1 + 255 * (1.0 - fAlpha1)));
+
+        pen2.setColor(QColor(iRed * fAlpha2 + 255 * (1.0 - fAlpha2),
+                 iGreen * fAlpha2 + 255 * (1.0 - fAlpha2),
+                 iBlue * fAlpha2 + 255 * (1.0 - fAlpha2)));
+
+        // draw
+        pRightScene->addRect(10, 10, 50, 50, pen1);
+
+        // and show
+        this->sets
+        if (this->scene)
+        if (m_pGraphicsView->scene() != NULL)
+        delete m_pGraphicsView->scene();
+
+        m_pGraphicsView->setScene(pNewScene);
+    }
 }
 void MainWindow::FindWordIndex(QString search_phrase)
 {

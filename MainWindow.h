@@ -88,6 +88,7 @@ private:
 
 	/// ptr to the tree visualizer
 	WTTreeVisualizer *m_pTreeVisualizer;
+
     //@}
 };
 
