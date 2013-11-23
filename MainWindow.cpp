@@ -121,6 +121,8 @@ void MainWindow::FindWordIndex(QString search_phrase)
         {
             divide_ratio = complete_size/divide_ratio;
             Total_index[i] = Total_index[i]/divide_ratio;
+            if (Total_index[i]<1)
+                Total_index[i]=1;
         }
     }
 
