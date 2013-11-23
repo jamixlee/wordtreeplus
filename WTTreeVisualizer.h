@@ -38,6 +38,9 @@ public:
 	/// this method draws a visualized tree on the output view
 	void VisualizeWordTree(QSharedPointer<WTVisualizedTree> spWordTree);
     //@}
+
+    QString firstWord;
+
 private slots:
     void TimerStep();
 

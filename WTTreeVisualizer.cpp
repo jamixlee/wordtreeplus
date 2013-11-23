@@ -125,19 +125,19 @@ void WTTreeVisualizer::ItlDrawTreeTransition(QSharedPointer<WTVisualizedTree> sp
     if (fAlpha < 0.5)
     for (QVector<WTVisualizedTree::TVisualizedLineInfo>::iterator iter = vLines2.begin(); iter != vLines2.end(); iter++)
     {
-	WTVisualizedTree::TVisualizedLineInfo *pInfo2 = &(*iter);
-	QPainterPath connectSpline(QPointF(pInfo2->dX1 * iWidth, pInfo2->dY1 * iHeight));
+        WTVisualizedTree::TVisualizedLineInfo *pInfo2 = &(*iter);
+        QPainterPath connectSpline(QPointF(pInfo2->dX1 * iWidth, pInfo2->dY1 * iHeight));
 
-	unsigned int deltaX = (pInfo2->dX2 - pInfo2->dX1) * iWidth;
+        unsigned int deltaX = (pInfo2->dX2 - pInfo2->dX1) * iWidth;
 
-	connectSpline.cubicTo(pInfo2->dX1 * iWidth + deltaX / 2,
-			      pInfo2->dY1 * iHeight,
-			      pInfo2->dX1 * iWidth + deltaX / 2,
-			      pInfo2->dY2 * iHeight,
-			      pInfo2->dX2 * iWidth,
-			      pInfo2->dY2 * iHeight);
+        connectSpline.cubicTo(pInfo2->dX1 * iWidth + deltaX / 2,
+                      pInfo2->dY1 * iHeight,
+                      pInfo2->dX1 * iWidth + deltaX / 2,
+                      pInfo2->dY2 * iHeight,
+                      pInfo2->dX2 * iWidth,
+                      pInfo2->dY2 * iHeight);
 
-	pNewScene->addPath(connectSpline, pen2);
+        pNewScene->addPath(connectSpline, pen2);
     }
 
     //render text
@@ -147,46 +147,46 @@ void WTTreeVisualizer::ItlDrawTreeTransition(QSharedPointer<WTVisualizedTree> sp
 
     for (QMap<long long int, WTVisualizedTree::TVisualizedWordInfo>::iterator iter=pInfoMapTree1->begin(); iter != pInfoMapTree1->end(); iter++)
     {
-	WTVisualizedTree::TVisualizedWordInfo *pInfo1 = &(iter.value());
+        WTVisualizedTree::TVisualizedWordInfo *pInfo1 = &(iter.value());
 
-	if (pInfoMapTree2->contains(iter.key()))
-	{
-	    QMap<long long int, WTVisualizedTree::TVisualizedWordInfo>::iterator pInfo2 = pInfoMapTree2->find(iter.key());
+        if (pInfoMapTree2->contains(iter.key()))
+        {
+            QMap<long long int, WTVisualizedTree::TVisualizedWordInfo>::iterator pInfo2 = pInfoMapTree2->find(iter.key());
 
-	    if (pInfo1->bIsFirstElement)
-	    {
-		Q_ASSERT(pInfo1->iFontSize * fAlpha >= 0);
-		font.setPixelSize(pInfo1->iFontSize * fAlpha + pInfo2.value().iFontSize * (1.0f - fAlpha));
-		QGraphicsTextItem *pNewTextItem = pNewScene->addText(QString(pInfo1->sWord.data()), font);
+            if (pInfo1->bIsFirstElement)
+            {
+                Q_ASSERT(pInfo1->iFontSize * fAlpha >= 0);
+                font.setPixelSize(pInfo1->iFontSize * fAlpha + pInfo2.value().iFontSize * (1.0f - fAlpha));
+                QGraphicsTextItem *pNewTextItem = pNewScene->addText(QString(pInfo1->sWord.data()), font);
 
-		pNewTextItem->setPos((pInfo1->dLeft * fAlpha + pInfo2.value().dLeft * (1.0f - fAlpha)) * iWidth,
-				     (pInfo1->dTop *fAlpha + (pInfo2.value().dTop * (1.0f - fAlpha))) * iHeight);
+                pNewTextItem->setPos((pInfo1->dLeft * fAlpha + pInfo2.value().dLeft * (1.0f - fAlpha)) * iWidth,
+                             (pInfo1->dTop *fAlpha + (pInfo2.value().dTop * (1.0f - fAlpha))) * iHeight);
+                firstWord=pInfo1->sWord;
+            }
+        }
+        else
+        {
+            if (pInfo1->bIsFirstElement && pInfo1->iFontSize * fAlpha > 3)
+            {
+                Q_ASSERT(pInfo1->iFontSize * fAlpha >= 0);
 
-	    }
-	}
-	else
-	{
-	    if (pInfo1->bIsFirstElement && pInfo1->iFontSize * fAlpha > 3)
-	    {
-		Q_ASSERT(pInfo1->iFontSize * fAlpha >= 0);
-
-		font.setPixelSize(pInfo1->iFontSize * fAlpha);
+                font.setPixelSize(pInfo1->iFontSize * fAlpha);
 
 
-		QGraphicsTextItem *pNewTextItem = pNewScene->addText(QString(pInfo1->sWord.data()), font);
+                QGraphicsTextItem *pNewTextItem = pNewScene->addText(QString(pInfo1->sWord.data()), font);
 
-		pNewTextItem->setPos(pInfo1->dLeft * iWidth, pInfo1->dTop * iHeight);
+                pNewTextItem->setPos(pInfo1->dLeft * iWidth, pInfo1->dTop * iHeight);
 
-		int rgbValue = (1.0 - fAlpha) * 255;
+                int rgbValue = (1.0 - fAlpha) * 255;
 
-		if (fAlpha < 0.0)
-		    rgbValue = 255;
+                if (fAlpha < 0.0)
+                    rgbValue = 255;
 
-		QColor color(rgbValue, rgbValue, rgbValue, 255);
+                QColor color(rgbValue, rgbValue, rgbValue, 255);
 
-		pNewTextItem->setDefaultTextColor(color);
-	    }
-	}
+                pNewTextItem->setDefaultTextColor(color);
+            }
+        }
     }
 
 
@@ -213,10 +213,10 @@ void WTTreeVisualizer::VisualizeWordTree(QSharedPointer<WTVisualizedTree> spWord
 	    // only draw new tree, if it's not the same as before
 	    if (spWordTree->GetSearchPhrase().compare(m_spLastVisualizedWordTree->GetSearchPhrase()) != 0)
 	    {
-		m_iMillisecondsLeft = iFadeInTime;
+            m_iMillisecondsLeft = iFadeInTime;
 
-		m_spNewVisualizedWordTree = spWordTree;
-        m_rTimer.start();
+            m_spNewVisualizedWordTree = spWordTree;
+            m_rTimer.start();
 	    }
 	}
 }
@@ -239,16 +239,16 @@ void WTTreeVisualizer::TimerStep()
 
     if (m_spLastVisualizedWordTree.isNull())
     {
-	ItlDrawTreeTransition(m_spNewVisualizedWordTree, m_spNewVisualizedWordTree, fAlpha);
+        ItlDrawTreeTransition(m_spNewVisualizedWordTree, m_spNewVisualizedWordTree, fAlpha);
     }
     else
-	ItlDrawTreeTransition(m_spNewVisualizedWordTree, m_spLastVisualizedWordTree, 1.0f - fAlpha);
+        ItlDrawTreeTransition(m_spNewVisualizedWordTree, m_spLastVisualizedWordTree, 1.0f - fAlpha);
 
     if (m_iMillisecondsLeft > 0)
-	m_iMillisecondsLeft -= m_rTimer.interval();
+        m_iMillisecondsLeft -= m_rTimer.interval();
     else
     {
-	m_spLastVisualizedWordTree = m_spNewVisualizedWordTree;
-	m_rTimer.stop();
+        m_spLastVisualizedWordTree = m_spNewVisualizedWordTree;
+        m_rTimer.stop();
     }
 }

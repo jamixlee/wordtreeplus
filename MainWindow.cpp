@@ -85,44 +85,9 @@ void MainWindow::LoadFile()
         */
         // pCurrentBackend->Total_SplittedPhrase;
         //Total_index
-        FindWordIndex("sentence");
+
         Search(pCurrentBackend->initWord);
         //Search("Harry ");
-
-
-        /// 그림 그려보자
-        // create a new temporary scene
-        QGraphicsScene *pRightScene = new QGraphicsScene();
-
-        // create two pens (one for each tree)
-        QPen pen1, pen2;
-        int iRed = 255;
-        int iGreen = 153;
-        int iBlue = 0;
-
-        // set properties of the pens
-        pen1.setWidth(2);
-        pen2.setWidth(2);
-
-        // set color of pens
-        pen1.setColor(QColor(iRed * fAlpha1 + 255 * (1.0 - fAlpha1),
-                 iGreen * fAlpha1 + 255 * (1.0 - fAlpha1),
-                 iBlue * fAlpha1 + 255 * (1.0 - fAlpha1)));
-
-        pen2.setColor(QColor(iRed * fAlpha2 + 255 * (1.0 - fAlpha2),
-                 iGreen * fAlpha2 + 255 * (1.0 - fAlpha2),
-                 iBlue * fAlpha2 + 255 * (1.0 - fAlpha2)));
-
-        // draw
-        pRightScene->addRect(10, 10, 50, 50, pen1);
-
-        // and show
-        this->sets
-        if (this->scene)
-        if (m_pGraphicsView->scene() != NULL)
-        delete m_pGraphicsView->scene();
-
-        m_pGraphicsView->setScene(pNewScene);
     }
 }
 void MainWindow::FindWordIndex(QString search_phrase)
@@ -150,17 +115,27 @@ void MainWindow::FindWordIndex(QString search_phrase)
         complete_size += Temp_Phrase.size();
     }
     double divide_ratio = 18*106;
-    if (complete_size/divide_ratio<1)
+    if (complete_size/divide_ratio>1)
     {
+        divide_ratio = complete_size/divide_ratio;
+
         for(int i = 0;i<Total_index.size();i++)
         {
-            divide_ratio = complete_size/divide_ratio;
             Total_index[i] = Total_index[i]/divide_ratio;
             if (Total_index[i]<1)
                 Total_index[i]=1;
+            if (Total_index[i]>1908)
+                Total_index[i]=1908;
         }
     }
 
+    for (int i=0; i<1908; i++)
+        imhere[i] = 0;
+
+    for (int i=0; i<Total_index.size(); i++)
+    {
+        imhere[Total_index[i]] = 1;
+    }
 }
 
 void MainWindow::Search(QString search_phrase)
@@ -170,6 +145,35 @@ void MainWindow::Search(QString search_phrase)
     m_pSearchHistory->AddNewSearch(search_phrase, spNewTree);
 
     m_pTreeVisualizer->VisualizeWordTree(spNewTree);
+
+    FindWordIndex("Shakespeare");
+
+    /// 그림 그려보자
+    // create a new temporary scene
+    QGraphicsScene *pRightScene = new QGraphicsScene();
+
+    // draw and show
+    int margin = 10;
+    int boxWidth = 10;
+    int boxHeight = 5;
+    int k=0;
+
+    for (int i=0; i<106; i++)
+    {
+        for (int j=0; j<18; j++)
+        {
+            if (imhere[k])
+                pRightScene->addRect(margin+(j*boxWidth), margin+(i*boxHeight), boxWidth, boxHeight, QPen(Qt::NoPen), QBrush(QColor("black")));
+            else
+                pRightScene->addRect(margin+(j*boxWidth), margin+(i*boxHeight), boxWidth, boxHeight, QPen(Qt::NoPen), QBrush(QColor("gray")));
+            k++;
+        }
+    }
+
+    // show
+    if (ui->miniView->scene() != NULL)
+        delete ui->miniView->scene();
+    ui->miniView->setScene(pRightScene);
 }
 
 void MainWindow::ForceSearch()

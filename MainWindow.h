@@ -7,7 +7,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QObject>
 #include <QMainWindow>
+#include <QGraphicsScene>
 
 class SearchHistory;
 class WTTreeVisualizer;
@@ -27,6 +29,7 @@ public:
 	/// Constructor
 	explicit MainWindow(QWidget *parent = 0);
     QList< int > Total_index;
+    bool imhere[1908];
 	/// Destructor
 	~MainWindow();
     //@}
@@ -89,6 +92,7 @@ private:
 	/// ptr to the tree visualizer
 	WTTreeVisualizer *m_pTreeVisualizer;
 
+    //QGraphicsView *m_pGraphicsView2;
     //@}
 };
 

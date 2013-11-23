@@ -250,7 +250,7 @@ void WTBackend::LoadFile(QString filename, bool filtered)
             //아래 엔터키랑 char 13인가 없애는거
             for (int i=lSplittedPhrase[iStartingWord].length() - 1; i >= 0; i--)
             {
-                if (lSplittedPhrase[iStartingWord].at(i) == (char) 13 || lSplittedPhrase[iStartingWord].at(i) == (char) 10 )
+                if (lSplittedPhrase[iStartingWord].at(i) == (char) 13 || lSplittedPhrase[iStartingWord].at(i) == ',' || lSplittedPhrase[iStartingWord].at(i) == (char) 10 )
                 lSplittedPhrase[iStartingWord].remove(i,1);
             }
         }
@@ -441,11 +441,6 @@ void WTBackend::LoadFile(QString filename, bool filtered)
 
 }
 
-void WTBackend::Initial_visual()
-{
-    QVector<TCodedPhrase> m_vCodedPhrases;
-
-}
 
 /* This method creates a word tree, which can be visualized with 'WTTreeVisualizer' */
 QSharedPointer<WTVisualizedTree> WTBackend::CreateWordTree(QString sSearchPhrase)

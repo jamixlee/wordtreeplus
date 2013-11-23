@@ -106,7 +106,7 @@ private:
     //@{
 	/// this method creates a word list of the given phrase
 	QStringList ItlCreateWordList(QString sPhrase);
-    void Initial_visual();
+
 	/// this method recursively draws a given node in the given visualized tree object
 	void ItlDrawNode(int iStartX,
 		  int iStartY,

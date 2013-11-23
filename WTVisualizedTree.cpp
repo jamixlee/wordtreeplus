@@ -25,16 +25,16 @@ void WTVisualizedTree::AddRenderedWord(QVector<long long int> vWordIds, QString 
 
     for (QVector<long long int>::iterator iter=vWordIds.begin(); iter != vWordIds.end(); iter++)
     {
-	Q_ASSERT(m_mInfoMap.find(*iter) == m_mInfoMap.end());
+        Q_ASSERT(m_mInfoMap.find(*iter) == m_mInfoMap.end());
 
-	m_mInfoMap[*iter].bIsFirstElement = (iter == vWordIds.begin());
-	m_mInfoMap[*iter].dLeft = dLeft;
-	m_mInfoMap[*iter].dTop = dTop;
-	m_mInfoMap[*iter].sPhrase = sPhrase;
-	m_mInfoMap[*iter].iWidth = iWidth;
-	m_mInfoMap[*iter].iHeight = iHeight;
-	m_mInfoMap[*iter].iFontSize = iFontSize;
-	m_mInfoMap[*iter].sWord = sWord;
+        m_mInfoMap[*iter].bIsFirstElement = (iter == vWordIds.begin());
+        m_mInfoMap[*iter].dLeft = dLeft;
+        m_mInfoMap[*iter].dTop = dTop;
+        m_mInfoMap[*iter].sPhrase = sPhrase;
+        m_mInfoMap[*iter].iWidth = iWidth;
+        m_mInfoMap[*iter].iHeight = iHeight;
+        m_mInfoMap[*iter].iFontSize = iFontSize;
+        m_mInfoMap[*iter].sWord = sWord;
     }
 
 }
