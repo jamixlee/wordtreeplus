@@ -114,7 +114,16 @@ void MainWindow::FindWordIndex(QString search_phrase)
         }
         complete_size += Temp_Phrase.size();
     }
-    int let_correct;
+    double divide_ratio = 18*106;
+    if (complete_size/divide_ratio<1)
+    {
+        for(int i = 0;i<Total_index.size();i++)
+        {
+            divide_ratio = complete_size/divide_ratio;
+            Total_index[i] = Total_index[i]/divide_ratio;
+        }
+    }
+
 }
 
 void MainWindow::Search(QString search_phrase)
