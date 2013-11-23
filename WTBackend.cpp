@@ -247,14 +247,74 @@ void WTBackend::LoadFile(QString filename, bool filtered)
         QList<QByteArray> lSplittedPhrase = baCurrentPhrase.split(' ');
         int iSplittedSize = lSplittedPhrase.size(); // 몇개 단어인지를 세어서 아래 루프에서 limit으로 사용
 
-        //범진 추가
-        for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
-        {
-            long long int size_count_all_phrase = count_all_phrase.size();
-            for(int i =0 ; i < size_count_all_phrase; i++)
-            {
-            }
-        }
+        //////////범진 추가//////////////////////////////////////////////////////////////
+                  for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
+                  {
+                      long long int size_c_a_p = count_all_phrase.size();
+                      //아래 엔터키랑 char 13인가 없애는거
+                      for (int i=lSplittedPhrase[iStartingWord].length() - 1; i >= 0; i--)
+                      {
+                          if (lSplittedPhrase[iStartingWord].at(i) == (char) 13 || lSplittedPhrase[iStartingWord].at(i) == (char) 10 )
+                          lSplittedPhrase[iStartingWord].remove(i,1);
+                      }
+                      if(lSplittedPhrase[iStartingWord].length() == 0)
+                          break;
+                      if(size_c_a_p == 0)
+                      {
+                          Initial_vis_data_set t_c_a_p;
+                          QString temp_string(lSplittedPhrase[iStartingWord]);
+                          QStringList T_Words = ItlCreateWordList(temp_string);
+                          int dicide;
+                          if(T_Words.size()>2);  //see if error
+                          else if( (dicide = T_Words[0].operator ==(",")) == 1 ); // error ex) (,뭐시기) type 으로 error 만들고 위치+ 텍스트저장
+                          else
+                          {
+                              t_c_a_p.Words.append(T_Words[0]);
+                              t_c_a_p.counter_val = 1;
+                              count_all_phrase.push_back(t_c_a_p);
+                          }
+                      }
+                      else
+                      {
+
+                          int end_counter =0;
+                          for(int i = 0 ; i<size_c_a_p; i++)
+                          {
+
+                              Initial_vis_data_set t_c_a_p;
+                              QString temp_string(lSplittedPhrase[iStartingWord]);
+                              QStringList T_Words = ItlCreateWordList(temp_string);
+                              int dicide;
+                              if(T_Words.size()>2);  //see if error
+                              else if( (dicide = T_Words[0].operator ==(",")) == 1 ); // error ex) (,뭐시기) type 으로 error 만들고 위치+ 텍스트저장
+                              else
+                              {
+                                  t_c_a_p.Words.append(T_Words[0]);
+                                  if( (dicide = count_all_phrase[i].Words.operator ==(t_c_a_p.Words))==1)
+                                  {
+                                      count_all_phrase[i].counter_val++;
+                                      break;
+                                  }
+                                  else if( end_counter == size_c_a_p-1 )
+                                  {
+                                      if ((dicide = count_all_phrase[size_c_a_p-1].Words.operator ==(t_c_a_p.Words))==1)
+                                          count_all_phrase[i].counter_val++;
+                                      else
+                                      {
+                                          t_c_a_p.counter_val = 1;
+                                          count_all_phrase.push_back(t_c_a_p);
+                                      }
+                                  }
+                                  else
+                                  {
+                                      end_counter++;
+                                  }
+
+                              }
+                          }
+                      }
+                  }
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // loop starting word from 0..LastWord
         for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
@@ -295,8 +355,31 @@ void WTBackend::LoadFile(QString filename, bool filtered)
         // set position forward
         iCurrentPos = iNextPoint+1;
     }
-
-
+    //////////////////////////////////
+    long long int size_c_a_p = count_all_phrase.size();
+        int max_index =0;
+        int max_val = 0;
+        Initial_vis_data_set max_set;
+        for(int i = 0; i<size_c_a_p; i++)
+        {
+            if(i == 0)
+            {
+                max_index = i;
+                max_set = count_all_phrase[i];
+                max_val = count_all_phrase[i].counter_val;
+            }
+            else
+            {
+                if(max_val < count_all_phrase[i].counter_val )
+                {
+                    max_index = i;
+                    max_set = count_all_phrase[i];
+                    max_val = count_all_phrase[i].counter_val;
+                 }
+            }
+        }
+        initWord = max_set.Words[0];
+///////////////////////////////////
     // remove unwanted chars (new line, char(10) and char(13))
     // char(10)은 line feed, char(13)은 carriage return, 결국 모두 new line
     // 혹시 탭이 있을 수 있으므로, char(9)도 검사해서 빼야할 듯...
@@ -349,6 +432,8 @@ void WTBackend::LoadFile(QString filename, bool filtered)
     }
     //q_assert 는 자바의 test catch 같은거
     Q_ASSERT (m_vCodedPhrases.size() == lAllSubPhrases.size());
+
+
 }
 
 void WTBackend::Initial_visual()

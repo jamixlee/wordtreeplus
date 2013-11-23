@@ -37,12 +37,15 @@ public:
     };
     //@}
 
+    //@{
+    QString initWord;
+    //@}
+
     /*! \name Constructor / Destructor */
     //@{
 	/// Constructor
 	explicit WTBackend(QObject *parent = 0);
     //@}
-
 
     /*! \name Public methods */
     //@{

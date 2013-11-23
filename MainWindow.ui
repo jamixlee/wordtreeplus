@@ -68,6 +68,16 @@
       </item>
      </layout>
     </item>
+    <item>
+     <widget class="QGraphicsView" name="miniView">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>550</height>
+       </size>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">

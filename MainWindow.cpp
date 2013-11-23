@@ -24,7 +24,7 @@ WTBackend *pCurrentBackend = 0;
 
 // filename backup (CYLEE)
 QString fName;
-
+QString hfWord;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -72,6 +72,18 @@ void MainWindow::LoadFile()
         fName = filename;   // 파일 이름 백업하자, 필터링 체크하고 Reload할 때 필요하니깐
 
         pCurrentBackend->LoadFile(filename, false);
+
+        // 불러온 문서내 최고빈도수를 가지는 단어로 그래프 출력
+
+        // 출력
+        /*
+        if (m_pTreeVisualizer != NULL)
+            delete m_pTreeVisualizer;
+        m_pTreeVisualizer = new WTTreeVisualizer();
+        m_pTreeVisualizer->SetGraphicsView(ui->graphicsView);
+        */
+        Search(pCurrentBackend->initWord);
+        //Search("Harry ");
     }
 
 }
