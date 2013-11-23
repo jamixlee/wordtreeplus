@@ -39,6 +39,7 @@ public:
 
     //@{
     QString initWord;
+    QList< QList<QByteArray> > Total_SplittedPhrase;
     //@}
 
     /*! \name Constructor / Destructor */

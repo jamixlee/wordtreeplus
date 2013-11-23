@@ -82,10 +82,39 @@ void MainWindow::LoadFile()
         m_pTreeVisualizer = new WTTreeVisualizer();
         m_pTreeVisualizer->SetGraphicsView(ui->graphicsView);
         */
+        // pCurrentBackend->Total_SplittedPhrase;
+        //Total_index
+        FindWordIndex("sentence");
         Search(pCurrentBackend->initWord);
         //Search("Harry ");
     }
 
+}
+void MainWindow::FindWordIndex(QString search_phrase)
+{
+    int total_size = pCurrentBackend->Total_SplittedPhrase.size(); //모든 phrase별로 다 담고 변수 사이즈 즉 sentence 총갯수
+    int complete_size = 0; // 단어 총갯수 즉 위치 찾기용 +- 1차이는 별 지장이 없을듯 overview이기 때문에
+
+    for (int i =0; i<total_size; i++) // 총 sentecne 수에서 1문장씩 뒤져보자
+    {
+        QList<QByteArray> Temp_Phrase; // 임시 sentence 담을 곳
+        Temp_Phrase.append(pCurrentBackend->Total_SplittedPhrase[i]); //담아
+         // sentence에 단어 갯수 저장
+        for(int j = 0 ; j<Temp_Phrase.size();j++ ) // 단어 탐색
+        {
+             // 검색단어와 문장속 단어 일치하나 검사용 변수
+            QString CMP_string(Temp_Phrase[j]);
+            bool found_index = (search_phrase==CMP_string); // 단어 일치 검사
+            if (found_index == 1) //일치를 찾았다3
+            {
+                int index_pos;
+                index_pos = complete_size+j+1;
+                Total_index.append(index_pos); //저장
+            }
+        }
+        complete_size += Temp_Phrase.size();
+    }
+    int let_correct;
 }
 
 void MainWindow::Search(QString search_phrase)

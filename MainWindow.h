@@ -26,7 +26,7 @@ public:
     //@{
 	/// Constructor
 	explicit MainWindow(QWidget *parent = 0);
-
+    QList< int > Total_index;
 	/// Destructor
 	~MainWindow();
     //@}
@@ -36,7 +36,7 @@ public:
 	/// sets the search history window
 	void SetSearchHistoryWindow(SearchHistory *pSearchHistory);
     //@}
-
+    void FindWordIndex(QString search_phrase);
 protected:
     /*! \name Overrided events */
     //@{

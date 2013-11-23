@@ -224,7 +224,6 @@ void WTBackend::LoadFile(QString filename, bool filtered)
     // take '.' as split pattern
 
     QList<Initial_vis_data_set> count_all_phrase;
-
     while (iCurrentPos < iLength) // 문서 끝까지 loop
     {
         // search the next occurence of '.'
@@ -246,17 +245,23 @@ void WTBackend::LoadFile(QString filename, bool filtered)
         // 먼저 현재 문장을 공백 기준으로 잘라서 단어 목록으로 저장하고
         QList<QByteArray> lSplittedPhrase = baCurrentPhrase.split(' ');
         int iSplittedSize = lSplittedPhrase.size(); // 몇개 단어인지를 세어서 아래 루프에서 limit으로 사용
+        for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
+        {
+            //아래 엔터키랑 char 13인가 없애는거
+            for (int i=lSplittedPhrase[iStartingWord].length() - 1; i >= 0; i--)
+            {
+                if (lSplittedPhrase[iStartingWord].at(i) == (char) 13 || lSplittedPhrase[iStartingWord].at(i) == (char) 10 )
+                lSplittedPhrase[iStartingWord].remove(i,1);
+            }
+        }
+        Total_SplittedPhrase.append(lSplittedPhrase);
 
         //////////범진 추가//////////////////////////////////////////////////////////////
                   for (int iStartingWord=0; iStartingWord < iSplittedSize; iStartingWord++)
                   {
                       long long int size_c_a_p = count_all_phrase.size();
-                      //아래 엔터키랑 char 13인가 없애는거
-                      for (int i=lSplittedPhrase[iStartingWord].length() - 1; i >= 0; i--)
-                      {
-                          if (lSplittedPhrase[iStartingWord].at(i) == (char) 13 || lSplittedPhrase[iStartingWord].at(i) == (char) 10 )
-                          lSplittedPhrase[iStartingWord].remove(i,1);
-                      }
+
+
                       if(lSplittedPhrase[iStartingWord].length() == 0)
                           break;
                       if(size_c_a_p == 0)
@@ -439,6 +444,7 @@ void WTBackend::LoadFile(QString filename, bool filtered)
 void WTBackend::Initial_visual()
 {
     QVector<TCodedPhrase> m_vCodedPhrases;
+
 }
 
 /* This method creates a word tree, which can be visualized with 'WTTreeVisualizer' */
