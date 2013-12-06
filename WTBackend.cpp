@@ -1,7 +1,9 @@
 /*
  * source file for WTBackend class
- * written by: christian moellinger <ch.moellinger@gmail.com>
+ * Original by: christian moellinger <ch.moellinger@gmail.com>
+ * Modified by: Chung-Yeon Lee <cylee@bi.snu.ac.kr> and Beom-Jin Lee <bjlee@bi.snu.ac.kr>
  * 03/2011 - 06/2011 Project "InfoVis: Word Tree"
+ * 11/2013 - 12/2013 Project "InfoVis: Word Tree ++"
  */
 
 // c++ includes
@@ -200,13 +202,14 @@ void WTBackend::LoadFile(QString filename, bool filtered)
     int iFWordsSize = lFWords.size();
 
 
-    /// 여기서부터는 원래 워드트리 코드
+    /// 텍스트 파일 불러오기
     QFile file(filename);
 
     // open file
     file.open(QIODevice::ReadOnly | QIODevice::Text);
 
     QByteArray baFullText;
+    //baFullText.reserve(204800);
 
     // read in file contents in byte array
     baFullText = file.readAll();

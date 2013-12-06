@@ -30,5 +30,4 @@ FORMS    += MainWindow.ui \
     SearchHistory.ui
 
 OTHER_FILES += \
-    Doxyfile \
-    Document.txt
+    Doxyfile

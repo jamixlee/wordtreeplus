@@ -1,7 +1,9 @@
 /*
  * header file for WTWordTreeView class
- * written by: christian moellinger <ch.moellinger@gmail.com>
+ * Original by: christian moellinger <ch.moellinger@gmail.com>
+ * Modified by: Chung-Yeon Lee <cylee@bi.snu.ac.kr> and Beom-Jin Lee <bjlee@bi.snu.ac.kr>
  * 03/2011 - 06/2011 Project "InfoVis: Word Tree"
+ * 11/2013 - 12/2013 Project "InfoVis: Word Tree ++"
  */
 
 #ifndef WTWORDTREEVIEW_H
